@@ -11,7 +11,7 @@ App screenshots are available in screen shots folder
 ## Installation
 
 ## Getting started
-To run the app, follow these steps:
+To run the app, follow these steps: Repo link :https://github.com/ashwinisoma/MVISample
 
 1. Clone this repository
 2. Open the project in Android Studio
