@@ -13,7 +13,7 @@ import org.junit.Test
 
 class GetProductItemUseCaseTest {
     private val mockProductRepository = mockk<ProductRepository>()
-    private lateinit var productItemUseCase:GetProductItemUseCaseImpl
+    private lateinit var productItemUseCase: GetProductItemUseCaseImpl
 
     @Before
     fun setUp() {

@@ -15,12 +15,11 @@ It relies on the `ProductApiService` to fetch product data from a remote API.*/
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
-
     // Provides an instance of [ProductRepository]
-    //@return A new instance of [ProductRepositoryImpl].
+    // @return A new instance of [ProductRepositoryImpl].
     @Singleton
     @Provides
     fun provideProductRepository(
-        productApiService: ProductApiService
+        productApiService: ProductApiService,
     ): ProductRepository = ProductRepositoryImpl(productApiService)
 }

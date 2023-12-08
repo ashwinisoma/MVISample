@@ -32,7 +32,7 @@ class ProductRepositoryImplTest {
             // Verify success and mapped data
             assertEquals(
                 result,
-                Result.Success(Products(products = FakeDataProvider.fakeListOfProducts))
+                Result.Success(Products(products = FakeDataProvider.fakeListOfProducts)),
             )
         }
     }
@@ -62,7 +62,7 @@ class ProductRepositoryImplTest {
             // Verify success and mapped data
             assertEquals(
                 result,
-                Result.Success(FakeDataProvider.fakeProduct1)
+                Result.Success(FakeDataProvider.fakeProduct1),
             )
         }
     }
@@ -80,5 +80,4 @@ class ProductRepositoryImplTest {
             assertTrue(result is Result.Error)
         }
     }
-
 }

@@ -1,24 +1,25 @@
 package com.example.domain.usecase
 
 import app.cash.turbine.test
+import com.example.domain.common.Result
 import com.example.domain.repository.ProductRepository
+import com.example.domain.utils.FakeDataProvider
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.test.runTest
-import org.junit.Test
-import com.example.domain.common.Result
-import com.example.domain.utils.FakeDataProvider
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Test
 
 class GetProductListUseCaseImplTest {
     private val mockProductRepository = mockk<ProductRepository>()
-    private lateinit var productListUseCase : GetProductListUseCaseImpl
+    private lateinit var productListUseCase: GetProductListUseCaseImpl
 
     @Before
     fun setUp() {
         productListUseCase = GetProductListUseCaseImpl(mockProductRepository)
     }
+
     @Test
     fun `Given product list is available, when productsUseCase is called, then return Success`() {
         runTest {
@@ -70,5 +71,4 @@ class GetProductListUseCaseImplTest {
             }
         }
     }
-
 }

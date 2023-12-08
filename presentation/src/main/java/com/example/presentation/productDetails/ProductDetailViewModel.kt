@@ -15,9 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailViewModel @Inject constructor(
     private val getProductItemUseCase: GetProductItemUseCase,
-    private val productItemMapper: ProductItemMapper
+    private val productItemMapper: ProductItemMapper,
 ) : BaseViewModel<ProductDetailViewState, ProductDetailViewIntent, ProductDetailSideEffect>(
-    ProductDetailViewState.Loading
+    ProductDetailViewState.Loading,
 ) {
 
     private fun fetchProductDetails(productId: Int) {
@@ -26,12 +26,11 @@ class ProductDetailViewModel @Inject constructor(
                 when (it) {
                     is Result.Success -> emitStateUpdate(
                         ProductDetailViewState.Success(
-                            productItemMapper.map(it.data)
-                        )
+                            productItemMapper.map(it.data),
+                        ),
                     )
 
                     is Result.Error -> emitStateUpdate(ProductDetailViewState.Error(it.error))
-
                 }
             }
         }
@@ -45,5 +44,4 @@ class ProductDetailViewModel @Inject constructor(
             }
         }
     }
-
 }

@@ -3,8 +3,8 @@ package com.example.domain.di
 import com.example.domain.repository.ProductRepository
 import com.example.domain.usecase.GetProductItemUseCase
 import com.example.domain.usecase.GetProductItemUseCaseImpl
-import com.example.domain.usecase.GetProductListUseCaseImpl
 import com.example.domain.usecase.GetProductListUseCase
+import com.example.domain.usecase.GetProductListUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ object UseCaseModule {
     @Singleton
     @Provides
     fun providesProductsUseCase(
-        productRepository: ProductRepository
+        productRepository: ProductRepository,
     ): GetProductListUseCase {
         return GetProductListUseCaseImpl(productRepository)
     }
@@ -28,9 +28,8 @@ object UseCaseModule {
     @Singleton
     @Provides
     fun providesProductItemUseCase(
-        productRepository: ProductRepository
+        productRepository: ProductRepository,
     ): GetProductItemUseCase {
         return GetProductItemUseCaseImpl(productRepository)
     }
-
 }

@@ -14,8 +14,7 @@ class ProductItemDataMapper {
             id,
             image,
             price,
-            title
+            title,
         )
     }
 }
-

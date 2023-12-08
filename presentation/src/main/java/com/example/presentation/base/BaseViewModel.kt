@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-
 /**
  * This abstract class provides a base implementation for ViewModels in the application.
  * It defines generic types for the ViewState, ViewIntent, and SideEffect used by the ViewModel.

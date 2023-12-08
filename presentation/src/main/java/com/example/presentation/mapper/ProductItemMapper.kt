@@ -15,7 +15,7 @@ class ProductItemMapper @Inject constructor() {
                 description = description,
                 image = image,
                 title = title,
-                price = price
+                price = price,
             )
         }
     }

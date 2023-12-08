@@ -3,10 +3,10 @@ package com.example.data.repository
 import com.example.data.mapper.ProductItemDataMapper
 import com.example.data.mapper.ProductListDataMapper
 import com.example.data.network.ProductApiService
+import com.example.domain.common.Result
 import com.example.domain.model.ProductItem
 import com.example.domain.model.Products
 import com.example.domain.repository.ProductRepository
-import com.example.domain.common.Result
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
  * It utilizes the `ProductApiService` to make network requests and utilizes mappers to convert data models between layers.
  */
 class ProductRepositoryImpl @Inject constructor(
-    private val productApiService: ProductApiService
+    private val productApiService: ProductApiService,
 ) : ProductRepository {
     override suspend fun getProducts(): Result<Products> {
         return try {
@@ -37,10 +37,3 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 }
-
-
-
-
-
-
-

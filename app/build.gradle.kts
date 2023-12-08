@@ -27,7 +27,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -58,11 +58,9 @@ dependencies {
     implementation(project(mapOf("path" to ":presentation")))
     implementation("androidx.compose.runtime:runtime:1.5.4")
 
-
-    //Hilt Dependencies
+    // Hilt Dependencies
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
-
 }
 
 // Allow references to generated code

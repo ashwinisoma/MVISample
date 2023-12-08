@@ -10,8 +10,8 @@ import androidx.navigation.navArgument
 import com.example.presentation.navigation.Screen
 import com.example.presentation.productDetails.ProductDetailScreen
 import com.example.presentation.productDetails.ProductDetailViewModel
-import com.example.presentation.products.ProductsListScreen
 import com.example.presentation.products.ProductListViewModel
+import com.example.presentation.products.ProductsListScreen
 
 /**
  * This composable function defines the navigation graph for the application.
@@ -23,7 +23,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.ProductListScreen.route
+        startDestination = Screen.ProductListScreen.route,
     ) {
         composable(route = Screen.ProductListScreen.route) {
             val viewModel: ProductListViewModel = hiltViewModel()
@@ -31,14 +31,16 @@ fun Navigation() {
         }
         composable(
             route = "${Screen.ProductDetailsScreen.route}/{productId}",
-            arguments = listOf(navArgument("productId") {
-                type = NavType.IntType
-            })
+            arguments = listOf(
+                navArgument("productId") {
+                    type = NavType.IntType
+                },
+            ),
         ) { navBackStackEntry ->
             val detailViewModel: ProductDetailViewModel = hiltViewModel()
             ProductDetailScreen(
                 navBackStackEntry.arguments!!.getInt("productId"),
-                viewModel = detailViewModel
+                viewModel = detailViewModel,
             )
         }
     }

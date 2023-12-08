@@ -1,11 +1,11 @@
 package com.example.domain.usecase
 
+import com.example.domain.common.Result
 import com.example.domain.model.ProductItem
 import com.example.domain.repository.ProductRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import com.example.domain.common.Result
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
  * @param productRepository The repository used to access product data.
  */
 class GetProductItemUseCaseImpl @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
 ) :
     GetProductItemUseCase {
     override suspend fun invoke(productId: Int): Flow<Result<ProductItem>> {

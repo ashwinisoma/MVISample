@@ -16,7 +16,7 @@ class ProductListDataMapper {
                 description = product.description,
                 image = product.image,
                 title = product.title,
-                price = product.price
+                price = product.price,
             )
         }
         return Products(productList)

@@ -54,14 +54,13 @@ import com.example.presentation.ui.theme.fontSize_20
 @Composable
 fun ProductsListScreen(
     navController: NavController,
-    viewModel: ProductListViewModel
+    viewModel: ProductListViewModel,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
 
-    )
-    {
+    ) {
         ProductList(navController, viewModel)
     }
 }
@@ -69,7 +68,7 @@ fun ProductsListScreen(
 @Composable
 private fun ProductList(
     navController: NavController,
-    viewModel: ProductListViewModel
+    viewModel: ProductListViewModel,
 ) {
     LaunchedEffect(Unit) {
         viewModel.sendIntent(ProductListViewIntent.FetchProductListList)
@@ -89,7 +88,7 @@ private fun ProductList(
             (viewState.value as ProductListViewState.Error).throwable.message?.let {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     RetrySection(it) {
                         Log.d(Constants.APP_TAG, "Exception in getProduct api $it.error")
@@ -104,19 +103,21 @@ private fun ProductList(
 @Composable
 private fun RetrySection(
     error: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Column {
         Text(
-            error, color = Color.Black, fontSize = fontSize_18,
+            error,
+            color = Color.Black,
+            fontSize = fontSize_18,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(PADDING_20DP)
+                .padding(PADDING_20DP),
         )
         Spacer(modifier = Modifier.height(SIZE_8DP))
         Button(
             onClick = { onRetry() },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
             Text(text = stringResource(R.string.button_retry))
         }
@@ -130,11 +131,11 @@ private fun ProductGrid(
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
+        contentAlignment = Alignment.TopCenter,
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color.White
+            color = Color.White,
         ) {
             Column {
                 MyTopBar(
@@ -142,9 +143,9 @@ private fun ProductGrid(
                     title = {
                         Text(
                             stringResource(R.string.product_list),
-                            fontSize = fontSize_20
+                            fontSize = fontSize_20,
                         )
-                    }
+                    },
                 )
                 // Add your other content here
                 LazyVerticalGrid(
@@ -153,7 +154,7 @@ private fun ProductGrid(
                         itemsIndexed(products) { _, product ->
                             ProductItem(product, navController)
                         }
-                    }
+                    },
                 )
             }
         }
@@ -163,7 +164,7 @@ private fun ProductGrid(
 @Composable
 private fun ProductItem(
     product: Product,
-    navController: NavController
+    navController: NavController,
 ) {
     Card(
         shape = RoundedCornerShape(SIZE_8DP),
@@ -173,40 +174,39 @@ private fun ProductItem(
             .fillMaxWidth()
             .clickable {
                 navController.navigate("${Screen.ProductDetailsScreen.route}/${product.id}")
-            }
+            },
     ) {
         Column(
             modifier = Modifier
                 .padding(SIZE_8DP)
-                .background(Color.White)
+                .background(Color.White),
         ) {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(product.image)
                         .crossfade(true)
-                        .build()
+                        .build(),
                 ),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(SIZE_200DP)
-                    .clip(RoundedCornerShape(SIZE_8DP))
+                    .clip(RoundedCornerShape(SIZE_8DP)),
             )
             Spacer(modifier = Modifier.height(SIZE_8DP))
             Text(
                 text = product.title ?: stringResource(R.string.product_title),
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.height(SIZE_8DP))
             Text(
                 text = product.price.toString(),
                 style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
     }
 }
-

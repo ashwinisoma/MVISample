@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    id ("kotlin-kapt")
+    id("kotlin-kapt")
 }
 
 android {
@@ -21,7 +21,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -47,23 +47,23 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // retrofit dependencies
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    //Hilt Dependencies
-    implementation ("com.google.dagger:hilt-android:2.48")
-    kapt ("com.google.dagger:hilt-android-compiler:2.48")
+    // Hilt Dependencies
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     // coroutines test dependency
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation ("io.mockk:mockk:1.13.8")
-    testImplementation ("junit:junit:4.13.2")
-    testImplementation ("app.cash.turbine:turbine:0.11.0")
-    implementation ("org.mockito:mockito-core:4.8.1")
-    testImplementation ("org.mockito:mockito-inline:4.8.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("app.cash.turbine:turbine:0.11.0")
+    implementation("org.mockito:mockito-core:4.8.1")
+    testImplementation("org.mockito:mockito-inline:4.8.0")
 }
 
 // Allow references to generated code
-    kapt {
-        correctErrorTypes = true
-    }
+kapt {
+    correctErrorTypes = true
+}

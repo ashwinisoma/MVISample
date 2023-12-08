@@ -47,7 +47,7 @@ import com.example.presentation.ui.theme.fontSize_20
 @Composable
 fun ProductDetailScreen(
     productId: Int,
-    viewModel: ProductDetailViewModel
+    viewModel: ProductDetailViewModel,
 ) {
     LaunchedEffect(UInt) {
         viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
@@ -68,7 +68,7 @@ fun ProductDetailScreen(
             (viewState.value as ProductDetailViewState.Error).throwable.message?.let {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     RetrySection(it) {
                         Log.d(Constants.APP_TAG, "Exception in getProductDetails api $it.error")
@@ -89,7 +89,7 @@ private fun GreetingPreview() {
             image = stringResource(R.string.product_url),
             description = stringResource(R.string.product_description),
             id = previewProductId,
-            price = previewPrice
+            price = previewPrice,
         )
         ProductDetail(product)
     }
@@ -97,14 +97,13 @@ private fun GreetingPreview() {
 
 @Composable
 private fun ProductDetail(product: Product) {
-
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
+        contentAlignment = Alignment.TopCenter,
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color.White
+            color = Color.White,
         ) {
             Column {
                 MyTopBar(
@@ -112,27 +111,27 @@ private fun ProductDetail(product: Product) {
                     title = {
                         Text(
                             stringResource(R.string.product_details),
-                            fontSize = fontSize_20
+                            fontSize = fontSize_20,
                         )
-                    }
+                    },
                 )
                 // Add your other content here
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(SIZE_16DP)
+                        .padding(SIZE_16DP),
                 ) {
                     Text(
                         text = product.title ?: stringResource(R.string.product_title),
                         style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(bottom = SIZE_8DP)
+                        modifier = Modifier.padding(bottom = SIZE_8DP),
                     )
                     val url = product.image
                     val painter = rememberAsyncImagePainter(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(url)
                             .crossfade(true)
-                            .build()
+                            .build(),
                     )
                     Image(
                         painter = painter,
@@ -140,12 +139,12 @@ private fun ProductDetail(product: Product) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)
-                            .clip(shape = RoundedCornerShape(SIZE_8DP))
+                            .clip(shape = RoundedCornerShape(SIZE_8DP)),
                     )
                     Text(
                         text = product.description ?: stringResource(R.string.product_description),
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(top = SIZE_16DP)
+                        modifier = Modifier.padding(top = SIZE_16DP),
                     )
                 }
             }
@@ -156,19 +155,21 @@ private fun ProductDetail(product: Product) {
 @Composable
 private fun RetrySection(
     error: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Column {
         Text(
-            error, color = Color.Black, fontSize = fontSize_18,
+            error,
+            color = Color.Black,
+            fontSize = fontSize_18,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(PADDING_20DP)
+                .padding(PADDING_20DP),
         )
         Spacer(modifier = Modifier.height(SIZE_8DP))
         Button(
             onClick = { onRetry() },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
             Text(text = stringResource(R.string.button_retry))
         }

@@ -14,5 +14,5 @@ data class ProductItemData(
     @SerializedName("title")
     val title: String,
     @SerializedName("price")
-    val price: Double
+    val price: Double,
 )

@@ -14,15 +14,15 @@ import androidx.compose.ui.unit.dp
 fun MyTopBar(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.DarkGray,
-    title: @Composable () -> Unit
+    title: @Composable () -> Unit,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = backgroundColor
+        color = backgroundColor,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             title()
         }
