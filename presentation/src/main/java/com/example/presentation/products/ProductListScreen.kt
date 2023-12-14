@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -81,7 +82,7 @@ private fun ProductList(
 
         is ProductListViewState.Success -> {
             val productList = (viewState.value as ProductListViewState.Success).data
-            ProductGrid(productList, navController)
+            ProductGrid(productList, viewModel)
         }
 
         is ProductListViewState.Error -> {
@@ -96,6 +97,19 @@ private fun ProductList(
                     }
                 }
             }
+        }
+    }
+
+    val viewEffect by viewModel.sideEffect.collectAsState(ProductListSideEffect.Idle)
+
+    LaunchedEffect(viewEffect) {
+        when (viewEffect) {
+            is ProductListSideEffect.NavigateToProductDetails -> {
+                val productId = (viewEffect as ProductListSideEffect.NavigateToProductDetails).id
+                navController.navigate("${Screen.ProductDetailsScreen.route}/$productId")
+            }
+
+            else -> {}
         }
     }
 }
@@ -127,7 +141,7 @@ private fun RetrySection(
 @Composable
 private fun ProductGrid(
     products: List<Product>,
-    navController: NavController,
+    viewModel: ProductListViewModel,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -152,7 +166,7 @@ private fun ProductGrid(
                     columns = GridCells.Fixed(gridColumnCount),
                     content = {
                         itemsIndexed(products) { _, product ->
-                            ProductItem(product, navController)
+                            ProductItem(product, viewModel)
                         }
                     },
                 )
@@ -164,7 +178,7 @@ private fun ProductGrid(
 @Composable
 private fun ProductItem(
     product: Product,
-    navController: NavController,
+    viewModel: ProductListViewModel,
 ) {
     Card(
         shape = RoundedCornerShape(SIZE_8DP),
@@ -173,7 +187,7 @@ private fun ProductItem(
             .padding(SIZE_8DP)
             .fillMaxWidth()
             .clickable {
-                navController.navigate("${Screen.ProductDetailsScreen.route}/${product.id}")
+                viewModel.sendIntent(ProductListViewIntent.OnProductItemClick(product.id))
             },
     ) {
         Column(

@@ -3,6 +3,7 @@ package com.example.presentation.base
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -17,10 +18,15 @@ abstract class BaseViewModel<VS : ViewState, VI : ViewIntent, SE : SideEffect>(i
 
     private val _sideEffect = MutableSharedFlow<SE>()
 
-    val sideEffect: MutableSharedFlow<SE> get() = _sideEffect
+    val sideEffect: SharedFlow<SE> get() = _sideEffect
+
     abstract fun sendIntent(intent: VI)
 
     protected suspend fun emitStateUpdate(newState: VS) {
         _state.emit(newState)
+    }
+
+    protected suspend fun emitEffect(newEffect: SE) {
+        _sideEffect.emit(newEffect)
     }
 }

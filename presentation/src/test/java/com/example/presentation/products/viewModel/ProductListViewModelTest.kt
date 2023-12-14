@@ -5,6 +5,7 @@ import com.example.domain.common.Result
 import com.example.domain.usecase.GetProductListUseCaseImpl
 import com.example.presentation.CoroutinesTestRule
 import com.example.presentation.mapper.ProductsMapper
+import com.example.presentation.products.ProductListSideEffect
 import com.example.presentation.products.ProductListViewIntent
 import com.example.presentation.products.ProductListViewModel
 import com.example.presentation.products.ProductListViewState
@@ -68,7 +69,7 @@ class ProductListViewModelTest {
             val resultFlow = flowOf(Result.Error<Nothing>(throwable, null))
             coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
-            val viewModel = ProductListViewModel(mockGetProductsUseCaseImpl, mockProductsMapper)
+            // When
             viewModel.sendIntent(ProductListViewIntent.FetchProductListList)
 
             viewModel.state.test {
@@ -79,6 +80,23 @@ class ProductListViewModelTest {
                 assertEquals(throwable, emittedError)
                 cancelAndConsumeRemainingEvents()
             }
+        }
+    }
+
+    @Test
+    fun `test OnProductItemClick intent`() = runTest {
+        // Given
+        val productId = 1
+        coEvery { mockProductsMapper.map(any()) }.returns(expectedMapProducts)
+        val resultFlow = flowOf(Result.Success(expectedResultProducts))
+        coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
+
+        // When
+        viewModel.sendIntent(ProductListViewIntent.OnProductItemClick(productId))
+
+        viewModel.sideEffect.test {
+            val emittedState = awaitItem()
+            assert(emittedState is ProductListSideEffect.NavigateToProductDetails)
         }
     }
 }

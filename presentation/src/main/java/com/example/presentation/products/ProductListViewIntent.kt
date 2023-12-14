@@ -7,4 +7,5 @@ import com.example.presentation.base.ViewIntent
  */
 sealed interface ProductListViewIntent : ViewIntent {
     object FetchProductListList : ProductListViewIntent
+    class OnProductItemClick(val id: Int) : ProductListViewIntent
 }

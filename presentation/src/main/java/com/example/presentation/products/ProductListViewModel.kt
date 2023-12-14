@@ -42,6 +42,17 @@ class ProductListViewModel @Inject constructor(
     }
 
     /**
+     * Function responsible for navigating to the product details screen for the specified product ID.
+     *
+     * @param id: The ID of the product to navigate to.
+     */
+    private fun navigateToProductDetails(id: Int) {
+        viewModelScope.launch {
+            emitEffect(ProductListSideEffect.NavigateToProductDetails(id))
+        }
+    }
+
+    /**
      * Override of the sendIntent method from the BaseViewModel class. This method handles incoming view intents
      * and triggers the corresponding actions.
      *
@@ -50,6 +61,7 @@ class ProductListViewModel @Inject constructor(
     override fun sendIntent(intent: ProductListViewIntent) {
         when (intent) {
             is ProductListViewIntent.FetchProductListList -> fetchProducts()
+            is ProductListViewIntent.OnProductItemClick -> navigateToProductDetails(intent.id)
         }
     }
 }
