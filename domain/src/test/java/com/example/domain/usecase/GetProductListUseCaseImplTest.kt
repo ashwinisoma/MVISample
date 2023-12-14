@@ -7,6 +7,7 @@ import com.example.domain.utils.FakeDataProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +18,7 @@ class GetProductListUseCaseImplTest {
 
     @Before
     fun setUp() {
-        productListUseCase = GetProductListUseCaseImpl(mockProductRepository)
+        productListUseCase = GetProductListUseCaseImpl(mockProductRepository, Dispatchers.IO)
     }
 
     @Test
@@ -58,7 +59,7 @@ class GetProductListUseCaseImplTest {
     @Test
     fun `Given product list is not available, when invoke is called, then return an error Result`() {
         runTest {
-            val expectedError = Result.Error<Nothing>(Throwable("Failed to fetch products"), null)
+            val expectedError = Result.Error<Nothing>(Throwable(error_msg), null)
             coEvery { mockProductRepository.getProducts() } returns expectedError
 
             // When
@@ -70,5 +71,9 @@ class GetProductListUseCaseImplTest {
                 cancelAndConsumeRemainingEvents()
             }
         }
+    }
+
+    companion object {
+        const val error_msg = "Failed to fetch products"
     }
 }

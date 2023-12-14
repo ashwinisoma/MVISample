@@ -16,11 +16,12 @@ import javax.inject.Inject
  */
 class ProductRepositoryImpl @Inject constructor(
     private val productApiService: ProductApiService,
+    private val productListDataMapper: ProductListDataMapper,
+    private val productItemDataMapper: ProductItemDataMapper,
 ) : ProductRepository {
     override suspend fun getProducts(): Result<Products> {
         return try {
             val products = productApiService.getProducts()
-            val productListDataMapper = ProductListDataMapper()
             Result.Success(productListDataMapper.map(products))
         } catch (e: Exception) {
             Result.Error(e)
@@ -30,7 +31,6 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun getProductDetails(id: Int): Result<ProductItem> {
         return try {
             val productItem = productApiService.getProductDetail(id)
-            val productItemDataMapper = ProductItemDataMapper()
             Result.Success(productItemDataMapper.map(productItem))
         } catch (e: Exception) {
             Result.Error(e)

@@ -1,5 +1,7 @@
 package com.example.data.repository
 
+import com.example.data.mapper.ProductItemDataMapper
+import com.example.data.mapper.ProductListDataMapper
 import com.example.data.network.ProductApiService
 import com.example.data.utils.FakeDataProvider
 import com.example.domain.common.Result
@@ -14,17 +16,24 @@ import org.junit.Test
 
 class ProductRepositoryImplTest {
     private val mockProductApiService = mockk<ProductApiService>()
+    private val mockProductListDataMapper = mockk<ProductListDataMapper>()
+    private val mockProductItemDataMapper = mockk<ProductItemDataMapper>()
     private lateinit var productRepository: ProductRepositoryImpl
 
     @Before
     fun setUp() {
-        productRepository = ProductRepositoryImpl(mockProductApiService)
+        productRepository = ProductRepositoryImpl(
+            mockProductApiService,
+            mockProductListDataMapper,
+            mockProductItemDataMapper,
+        )
     }
 
     @Test
     fun `Given product list is available when getProducts is called, then Return Success with List of Products`() {
         runTest {
             coEvery { mockProductApiService.getProducts() } returns FakeDataProvider.fakeListOfProductItemData
+            coEvery { mockProductListDataMapper.map(FakeDataProvider.fakeListOfProductItemData) } returns Products(products = FakeDataProvider.fakeListOfProducts)
 
             // When
             val result = productRepository.getProducts()
@@ -40,7 +49,7 @@ class ProductRepositoryImplTest {
     @Test
     fun `Given product list is not available when getProducts is called, then Return Error`() {
         runTest {
-            coEvery { mockProductApiService.getProducts() } throws Exception("Network error")
+            coEvery { mockProductApiService.getProducts() } throws Exception(error_msg)
 
             // Execute function and collect result
             val result = productRepository.getProducts()
@@ -53,8 +62,8 @@ class ProductRepositoryImplTest {
     @Test
     fun `Given product Item is available when getProductDetail is called, then Return Success with  Product Item`() {
         runTest {
-            val productId = 1
             coEvery { mockProductApiService.getProductDetail(productId) } returns FakeDataProvider.fakeProductItemData1
+            coEvery { mockProductItemDataMapper.map(FakeDataProvider.fakeProductItemData1) } returns FakeDataProvider.fakeProduct1
 
             // When
             val result = productRepository.getProductDetails(productId)
@@ -70,8 +79,7 @@ class ProductRepositoryImplTest {
     @Test
     fun `Given product item is not available when getProductDetail is called, then Return Error`() {
         runTest {
-            val productId = 1
-            coEvery { mockProductApiService.getProductDetail(productId) } throws Exception("Network error")
+            coEvery { mockProductApiService.getProductDetail(productId) } throws Exception(error_msg)
 
             // Execute function and collect result
             val result = productRepository.getProductDetails(productId)
@@ -79,5 +87,10 @@ class ProductRepositoryImplTest {
             // Verify error
             assertTrue(result is Result.Error)
         }
+    }
+
+    companion object {
+        const val productId = 1
+        const val error_msg = "Network error"
     }
 }

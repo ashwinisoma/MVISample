@@ -9,6 +9,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 /**
@@ -17,19 +19,24 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
+    @Provides
+    fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
     @Singleton
     @Provides
     fun providesProductsUseCase(
         productRepository: ProductRepository,
+        dispatcher: CoroutineDispatcher,
     ): GetProductListUseCase {
-        return GetProductListUseCaseImpl(productRepository)
+        return GetProductListUseCaseImpl(productRepository, dispatcher)
     }
 
     @Singleton
     @Provides
     fun providesProductItemUseCase(
         productRepository: ProductRepository,
+        dispatcher: CoroutineDispatcher,
     ): GetProductItemUseCase {
-        return GetProductItemUseCaseImpl(productRepository)
+        return GetProductItemUseCaseImpl(productRepository, dispatcher)
     }
 }

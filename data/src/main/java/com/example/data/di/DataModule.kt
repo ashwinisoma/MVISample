@@ -1,5 +1,7 @@
 package com.example.data.di
 
+import com.example.data.mapper.ProductItemDataMapper
+import com.example.data.mapper.ProductListDataMapper
 import com.example.data.network.ProductApiService
 import com.example.data.repository.ProductRepositoryImpl
 import com.example.domain.repository.ProductRepository
@@ -21,5 +23,8 @@ object DataModule {
     @Provides
     fun provideProductRepository(
         productApiService: ProductApiService,
-    ): ProductRepository = ProductRepositoryImpl(productApiService)
+        productListDataMapper: ProductListDataMapper,
+        productItemDataMapper: ProductItemDataMapper,
+    ): ProductRepository =
+        ProductRepositoryImpl(productApiService, productListDataMapper, productItemDataMapper)
 }

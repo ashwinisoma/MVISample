@@ -3,7 +3,7 @@ package com.example.domain.usecase
 import com.example.domain.common.Result
 import com.example.domain.model.ProductItem
 import com.example.domain.repository.ProductRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -16,12 +16,13 @@ import javax.inject.Inject
  */
 class GetProductItemUseCaseImpl @Inject constructor(
     private val productRepository: ProductRepository,
+    private val dispatcher: CoroutineDispatcher,
 ) :
     GetProductItemUseCase {
     override suspend fun invoke(productId: Int): Flow<Result<ProductItem>> {
         return flow {
             val result = productRepository.getProductDetails(productId)
             emit(result)
-        }.flowOn(Dispatchers.IO)
+        }.flowOn(dispatcher)
     }
 }

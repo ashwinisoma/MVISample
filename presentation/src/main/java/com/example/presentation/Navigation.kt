@@ -38,10 +38,12 @@ fun Navigation() {
             ),
         ) { navBackStackEntry ->
             val detailViewModel: ProductDetailViewModel = hiltViewModel()
-            ProductDetailScreen(
-                navBackStackEntry.arguments!!.getInt("productId"),
-                viewModel = detailViewModel,
-            )
+            navBackStackEntry.arguments?.let {
+                ProductDetailScreen(
+                    it.getInt("productId"),
+                    viewModel = detailViewModel,
+                )
+            }
         }
     }
 }
