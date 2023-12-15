@@ -42,6 +42,7 @@ fun Navigation() {
                 ProductDetailScreen(
                     it.getInt("productId"),
                     viewModel = detailViewModel,
+                    navController = navController,
                 )
             }
         }
