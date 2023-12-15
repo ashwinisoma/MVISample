@@ -46,50 +46,50 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.1")
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.activity.compose)
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation(project(mapOf("path" to ":domain")))
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    implementation(libs.androidx.test.ext.junit)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso)
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // image loading
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(libs.io.coil.compose)
 
     // Hilt Dependencies
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.0-beta02")
+    implementation(libs.androidx.compose.runtime.livedata)
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation(libs.androidx.navigation.compose)
 
     // test dependencies
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation("io.mockk:mockk:1.13.8")
-    testImplementation("app.cash.turbine:turbine:0.11.0")
-    androidTestImplementation("org.mockito:mockito-core:4.8.1")
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.cash.turbine)
+    androidTestImplementation(libs.mockito.core)
 
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("org.mockito:mockito-core:4.8.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 // Allow references to generated code

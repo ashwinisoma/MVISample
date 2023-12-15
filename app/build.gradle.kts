@@ -56,11 +56,10 @@ dependencies {
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":presentation")))
-    implementation("androidx.compose.runtime:runtime:1.5.4")
-
+    implementation(libs.androidx.compose.runtime)
     // Hilt Dependencies
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 }
 
 // Allow references to generated code
