@@ -5,7 +5,10 @@ import com.example.domain.model.Products
 import com.example.presentation.model.Product
 
 object FakeDataProvider {
-
+    const val products_size = 2
+    const val productId_1 = 1
+    const val productId_2 = 2
+    const val error_msg = "Failed to fetch products"
     val fakeMapProductItem = Product(
         "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
         1,

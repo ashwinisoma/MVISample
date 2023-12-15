@@ -62,12 +62,11 @@ class ProductDetailViewModelTest {
     @Test
     fun `Given an productId, productItem is not available , when FetchProductDetail is called, then emit an Error state`() {
         runTest {
-            val productId = 2
-            val throwable = Throwable("Failed to fetch products")
+            val throwable = Throwable(FakeDataProvider.error_msg)
             val resultFlow = flowOf(Result.Error<Nothing>(throwable, null))
-            coEvery { mockGetProductItemUseCase.invoke(productId) } returns resultFlow
+            coEvery { mockGetProductItemUseCase.invoke(FakeDataProvider.productId_2) } returns resultFlow
 
-            viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
+            viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(FakeDataProvider.productId_2))
 
             viewModel.state.test {
                 awaitItem() // Wait for the initial state to be emitted

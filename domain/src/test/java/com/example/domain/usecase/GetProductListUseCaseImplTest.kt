@@ -59,7 +59,7 @@ class GetProductListUseCaseImplTest {
     @Test
     fun `Given product list is not available, when invoke is called, then return an error Result`() {
         runTest {
-            val expectedError = Result.Error<Nothing>(Throwable(error_msg), null)
+            val expectedError = Result.Error<Nothing>(Throwable(FakeDataProvider.error_msg), null)
             coEvery { mockProductRepository.getProducts() } returns expectedError
 
             // When
@@ -71,9 +71,5 @@ class GetProductListUseCaseImplTest {
                 cancelAndConsumeRemainingEvents()
             }
         }
-    }
-
-    companion object {
-        const val error_msg = "Failed to fetch products"
     }
 }

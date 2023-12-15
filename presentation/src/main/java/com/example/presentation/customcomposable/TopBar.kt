@@ -15,9 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.presentation.R
 import com.example.presentation.navigation.Screen
+import com.example.presentation.ui.theme.SIZE_16DP
+import com.example.presentation.ui.theme.SIZE_8DP
+import com.example.presentation.ui.theme.WEIGHT_1
+import com.example.presentation.ui.theme.WEIGHT_2
 
 @Composable
 fun MyTopBar(
@@ -33,7 +38,7 @@ fun MyTopBar(
         color = backgroundColor,
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            modifier = Modifier.padding(horizontal = SIZE_16DP, vertical = SIZE_8DP)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -47,22 +52,22 @@ fun MyTopBar(
                             navController.navigate(Screen.ProductListScreen.route)
                         }
                     },
-                    modifier = Modifier.weight(0.1f), // Maintains small size for back button
+                    modifier = Modifier.weight(WEIGHT_1), // Maintains small size for back button
                 ) {
                     Icon(
                         Icons.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                     )
                 }
             }
-            Spacer(modifier = Modifier.weight(0.2f)) // Space before title
+            Spacer(modifier = Modifier.weight(WEIGHT_2)) // Space before title
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = SIZE_8DP),
             ) {
                 title() // Wrap title in Box with vertical alignment
             }
-            Spacer(modifier = Modifier.weight(0.2f)) // Space after title
+            Spacer(modifier = Modifier.weight(WEIGHT_2)) // Space after title
         }
     }
 }

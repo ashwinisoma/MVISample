@@ -25,10 +25,10 @@ class GetProductItemUseCaseImplTest {
     fun `Given product Item is available, when productItemUseCase is called, then return Success`() {
         runTest {
             val expected = Result.Success(FakeDataProvider.fakeProduct1)
-            coEvery { mockProductRepository.getProductDetails(productId_1) } returns expected
+            coEvery { mockProductRepository.getProductDetails(FakeDataProvider.productId_1) } returns expected
 
             // When
-            val resultFlow = productItemUseCase.invoke(productId_1)
+            val resultFlow = productItemUseCase.invoke(FakeDataProvider.productId_1)
 
             // Then
             resultFlow.test {
@@ -42,10 +42,10 @@ class GetProductItemUseCaseImplTest {
     fun `Given product item is available, when invoke is called, then product item is returned`() {
         runTest {
             val expected = FakeDataProvider.fakeProduct2
-            coEvery { mockProductRepository.getProductDetails(productId_2) } returns Result.Success(expected)
+            coEvery { mockProductRepository.getProductDetails(FakeDataProvider.productId_2) } returns Result.Success(expected)
 
             // When
-            val productList = productItemUseCase.invoke(productId_2)
+            val productList = productItemUseCase.invoke(FakeDataProvider.productId_2)
 
             // Then
             productList.test {
@@ -59,11 +59,11 @@ class GetProductItemUseCaseImplTest {
     @Test
     fun `Given product item is not available, when invoke is called, then return an error Result`() {
         runTest {
-            val expectedError = Result.Error<Nothing>(Throwable(error_msg), null)
-            coEvery { mockProductRepository.getProductDetails(productId_3) } returns expectedError
+            val expectedError = Result.Error<Nothing>(Throwable(FakeDataProvider.error_msg), null)
+            coEvery { mockProductRepository.getProductDetails(FakeDataProvider.productId_3) } returns expectedError
 
             // When
-            val productList = productItemUseCase.invoke(productId_3)
+            val productList = productItemUseCase.invoke(FakeDataProvider.productId_3)
 
             productList.test {
                 val result = awaitItem()
@@ -71,12 +71,5 @@ class GetProductItemUseCaseImplTest {
                 cancelAndConsumeRemainingEvents()
             }
         }
-    }
-
-    companion object {
-        const val productId_1 = 1
-        const val productId_2 = 2
-        const val productId_3 = 3
-        const val error_msg = "Failed to fetch products"
     }
 }

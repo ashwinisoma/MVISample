@@ -65,7 +65,7 @@ class ProductListViewModelTest {
     @Test
     fun `Given an error from the product list fetch, when fetchProducts is called, then emit an Error state`() {
         runTest {
-            val throwable = Throwable("Failed to fetch products")
+            val throwable = Throwable(FakeDataProvider.error_msg)
             val resultFlow = flowOf(Result.Error<Nothing>(throwable, null))
             coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
@@ -84,15 +84,14 @@ class ProductListViewModelTest {
     }
 
     @Test
-    fun `test OnProductItemClick intent`() = runTest {
+    fun `Given list of products displayed when OnProductItemClick then emit NavigateToProductDetails side effect`() = runTest {
         // Given
-        val productId = 1
         coEvery { mockProductsMapper.map(any()) }.returns(expectedMapProducts)
         val resultFlow = flowOf(Result.Success(expectedResultProducts))
         coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
         // When
-        viewModel.sendIntent(ProductListViewIntent.OnProductItemClick(productId))
+        viewModel.sendIntent(ProductListViewIntent.OnProductItemClick(FakeDataProvider.productId_1))
 
         viewModel.sideEffect.test {
             val emittedState = awaitItem()

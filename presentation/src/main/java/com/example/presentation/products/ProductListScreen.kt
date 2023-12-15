@@ -21,7 +21,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.domain.common.Constants
 import com.example.presentation.R
 import com.example.presentation.constant.gridColumnCount
+import com.example.presentation.constant.productItemMaxLines
 import com.example.presentation.customcomposable.ImageWidget
 import com.example.presentation.customcomposable.LoadingScreen
 import com.example.presentation.customcomposable.MyTopBar
@@ -87,7 +87,7 @@ private fun ProductList(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     RetryWidget(it) {
-                        Log.d(Constants.APP_TAG, "Exception in getProduct api $it.error")
+                        Log.d(Constants.APP_TAG, Constants.GET_PRODUCTS_API_ERROR+"$it.error")
                         viewModel.sendIntent(ProductListViewIntent.FetchProductListList)
                     }
                 }
@@ -95,16 +95,14 @@ private fun ProductList(
         }
     }
 
-    val viewEffect by viewModel.sideEffect.collectAsState(ProductListSideEffect.Idle)
-
-    LaunchedEffect(viewEffect) {
-        when (viewEffect) {
-            is ProductListSideEffect.NavigateToProductDetails -> {
-                val productId = (viewEffect as ProductListSideEffect.NavigateToProductDetails).id
-                navController.navigate("${Screen.ProductDetailsScreen.route}/$productId")
+    LaunchedEffect(viewModel.sideEffect) {
+        viewModel.sideEffect.collect { sideEffect ->
+            when (sideEffect) {
+                is ProductListSideEffect.NavigateToProductDetails -> {
+                    val productId = sideEffect.id
+                    navController.navigate("${Screen.ProductDetailsScreen.route}/$productId")
+                }
             }
-
-            else -> {}
         }
     }
 }
@@ -179,7 +177,7 @@ private fun ProductItem(
             TextWidget(
                 message = product.title ?: stringResource(R.string.product_title),
                 style = MaterialTheme.typography.titleMedium,
-                maxLines = 2,
+                maxLines = productItemMaxLines,
                 overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.height(SIZE_8DP))

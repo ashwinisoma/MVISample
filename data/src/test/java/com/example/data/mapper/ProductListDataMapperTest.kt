@@ -14,7 +14,7 @@ class ProductListDataMapperTest {
 
         val mappedProducts = ProductListDataMapper().map(productList)
 
-        assertEquals(mappedProducts.products.size, 2)
+        assertEquals(mappedProducts.products.size, FakeDataProvider.productsListSize)
         assertEquals(mappedProducts.products[0].description, product1.description)
         assertEquals(mappedProducts.products[0].id, product1.id)
         assertEquals(mappedProducts.products[0].image, product1.image)
@@ -33,6 +33,6 @@ class ProductListDataMapperTest {
 
         val mappedProducts = ProductListDataMapper().map(productList)
 
-        assertEquals(mappedProducts.products.size, 0)
+        assertEquals(mappedProducts.products.size, FakeDataProvider.emptyListSize)
     }
 }

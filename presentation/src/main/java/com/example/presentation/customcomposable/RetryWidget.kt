@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.presentation.R
+import com.example.presentation.constant.maxLinesRetryWidget
 import com.example.presentation.ui.theme.PADDING_20DP
 import com.example.presentation.ui.theme.SIZE_8DP
 import com.example.presentation.ui.theme.fontSize_18
@@ -25,7 +26,7 @@ fun RetryWidget(
             message = error,
             fontSize = fontSize_18,
             color = Color.Black,
-            maxLines = 2,
+            maxLines = maxLinesRetryWidget,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(PADDING_20DP),

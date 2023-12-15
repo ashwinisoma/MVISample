@@ -5,6 +5,12 @@ import com.example.domain.model.Products
 
 object FakeDataProvider {
 
+    const val productId_1 = 1
+    const val productId_2 = 2
+    const val productId_3 = 3
+    const val error_msg = "Failed to fetch products"
+
+
     val fakeProduct1 = ProductItem(
         id = 1,
         title = "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",

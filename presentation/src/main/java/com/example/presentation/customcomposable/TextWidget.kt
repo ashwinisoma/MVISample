@@ -9,6 +9,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.example.presentation.constant.maxLinesTextWidget
 import com.example.presentation.ui.theme.fontSize_16
 
 @Composable
@@ -18,7 +19,7 @@ fun TextWidget(
     fontSize: TextUnit? = null,
     color: Color? = null,
     style: TextStyle? = null,
-    maxLines: Int? = 1,
+    maxLines: Int? = maxLinesTextWidget,
     overflow: TextOverflow? = null,
     fontWeight: FontWeight? = null,
 ) {
@@ -28,7 +29,7 @@ fun TextWidget(
         fontSize = fontSize ?: fontSize_16,
         modifier = modifier,
         style = style ?: MaterialTheme.typography.titleSmall,
-        maxLines = maxLines ?: 1,
+        maxLines = maxLines ?: maxLinesTextWidget,
         overflow = overflow ?: TextOverflow.Clip,
         fontWeight = fontWeight ?: FontWeight.Normal,
     )

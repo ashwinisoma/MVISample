@@ -27,8 +27,10 @@ import com.example.presentation.customcomposable.MyTopBar
 import com.example.presentation.customcomposable.RetryWidget
 import com.example.presentation.customcomposable.TextWidget
 import com.example.presentation.model.Product
+import com.example.presentation.ui.theme.ASPECT_RATIO
 import com.example.presentation.ui.theme.SIZE_16DP
 import com.example.presentation.ui.theme.SIZE_8DP
+import com.example.presentation.ui.theme.TITLE_LENGTH
 import com.example.presentation.ui.theme.fontSize_20
 
 /**
@@ -62,7 +64,7 @@ fun ProductDetailScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     RetryWidget(it) {
-                        Log.d(Constants.APP_TAG, "Exception in getProductDetails api $it.error")
+                        Log.d(Constants.APP_TAG, Constants.GET_DETAIL_PRODUCTS_API_ERROR+"$it.error")
                         viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
                     }
                 }
@@ -84,7 +86,7 @@ private fun ProductDetail(
             modifier = Modifier.fillMaxSize(),
             color = Color.White,
         ) {
-            val limitedTitle = product.title?.take(20)?.let { "$it..." } ?: stringResource(R.string.product_title)
+            val limitedTitle = product.title?.take(TITLE_LENGTH)?.let { "$it..." } ?: stringResource(R.string.product_title)
 
             Column {
                 MyTopBar(
@@ -108,7 +110,7 @@ private fun ProductDetail(
                         product.image,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(1f)
+                            .aspectRatio(ASPECT_RATIO)
                             .clip(shape = RoundedCornerShape(SIZE_8DP)),
                         contentDescription = product.title,
                     )

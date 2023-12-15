@@ -4,7 +4,8 @@ import com.example.data.dto.ProductItemData
 import com.example.domain.model.ProductItem
 
 object FakeDataProvider {
-
+    const val productsListSize = 2
+    const val emptyListSize = 0
     val fakeProduct1 = ProductItem(
         id = 1,
         title = "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
