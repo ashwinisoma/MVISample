@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,36 +46,48 @@ fun ProductDetailScreen(
     LaunchedEffect(UInt) {
         viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
     }
-    val viewState = viewModel.state.collectAsState(initial = ProductDetailViewState.Loading)
+    val viewState by viewModel.state.collectAsState()
+    ProductDetail(viewState, navController, viewModel, productId)
 
-    when (viewState.value) {
-        is ProductDetailViewState.Loading -> {
-            LoadingScreen()
-        }
+}
 
-        is ProductDetailViewState.Success -> {
-            val productDetail = (viewState.value as ProductDetailViewState.Success).data
-            ProductDetail(productDetail, navController)
-        }
-
+@Composable
+private fun ProductDetail(
+    viewState: ProductDetailViewState,
+    navController: NavController,
+    viewModel: ProductDetailViewModel,
+    productId: Int
+) {
+    when (viewState) {
         is ProductDetailViewState.Error -> {
-            (viewState.value as ProductDetailViewState.Error).throwable.message?.let {
+            viewState.throwable.message?.let {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     RetryWidget(it) {
-                        Log.d(Constants.APP_TAG, Constants.GET_DETAIL_PRODUCTS_API_ERROR+"$it.error")
+                        Log.d(
+                            Constants.APP_TAG,
+                            Constants.GET_DETAIL_PRODUCTS_API_ERROR + "$it.error"
+                        )
                         viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
                     }
                 }
             }
         }
+
+        is ProductDetailViewState.Loading -> {
+            LoadingScreen()
+        }
+
+        is ProductDetailViewState.Success -> {
+            ProductDetailUI(product = viewState.data, navController = navController)
+        }
     }
 }
 
 @Composable
-private fun ProductDetail(
+private fun ProductDetailUI(
     product: Product,
     navController: NavController,
 ) {
@@ -86,7 +99,8 @@ private fun ProductDetail(
             modifier = Modifier.fillMaxSize(),
             color = Color.White,
         ) {
-            val limitedTitle = product.title?.take(TITLE_LENGTH)?.let { "$it..." } ?: stringResource(R.string.product_title)
+            val limitedTitle = product.title?.take(TITLE_LENGTH)?.let { "$it..." }
+                ?: stringResource(R.string.product_title)
 
             Column {
                 MyTopBar(
@@ -115,7 +129,8 @@ private fun ProductDetail(
                         contentDescription = product.title,
                     )
                     TextWidget(
-                        message = product.description ?: stringResource(R.string.product_description),
+                        message = product.description
+                            ?: stringResource(R.string.product_description),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = SIZE_16DP),
                         maxLines = Int.MAX_VALUE,

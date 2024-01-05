@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">presentation</string>
     <string name="button_retry">Retry</string>
-    <string name="product_title">"Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"</string>
-    <string name="product_url">"https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"</string>
-    <string name="product_description">"Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday"</string>
-    <string name="product_list">"Fashion Frenzy"</string>
-    <string name="product_details">"Product Details"</string>
+    <string name="product_title">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</string>
+    <string name="product_url">https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg</string>
+    <string name="product_description">Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday</string>
+    <string name="product_list">Fashion Frenzy</string>
+    <string name="product_details">Product Details</string>
     <string name="back">Back</string>
+    <string name="close">Close</string>
 </resources>

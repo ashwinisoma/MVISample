@@ -14,11 +14,10 @@ import javax.inject.Inject
  * and emitting side effects related to the products list screen.
  */
 @HiltViewModel
-class ProductListViewModel @Inject constructor(
+open class ProductListViewModel @Inject constructor(
     private val getProductListUseCaseImpl: GetProductListUseCaseImpl,
     private val productsMapper: ProductsMapper,
 ) : BaseViewModel<ProductListViewState, ProductListViewIntent, ProductListSideEffect>(
-    ProductListViewState.Loading,
 ) {
 
     /**
@@ -64,4 +63,6 @@ class ProductListViewModel @Inject constructor(
             is ProductListViewIntent.OnProductItemClick -> navigateToProductDetails(intent.id)
         }
     }
+
+    override fun initialValue() = ProductListViewState.Loading
 }

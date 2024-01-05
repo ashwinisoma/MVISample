@@ -64,6 +64,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation (libs.mockk.android)
 
     // image loading
     implementation(libs.io.coil.compose)

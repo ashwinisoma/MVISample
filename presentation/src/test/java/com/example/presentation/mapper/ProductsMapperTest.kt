@@ -5,10 +5,16 @@ import com.example.presentation.utils.FakeDataProvider
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class ProductsMapperTest {
-    private val mockProductItemMapper = mockk<ProductItemMapper>()
+    private lateinit var mockProductItemMapper: ProductItemMapper
+
+    @Before
+    fun setUp(){
+        mockProductItemMapper = mockk()
+    }
 
     @Test
     fun `Given Products are available when we map response then return List of Product`() {

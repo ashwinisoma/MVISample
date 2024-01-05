@@ -21,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,34 +69,7 @@ private fun ProductList(
 ) {
     LaunchedEffect(Unit) {
         viewModel.sendIntent(ProductListViewIntent.FetchProductListList)
-    }
-    val viewState = viewModel.state.collectAsState(initial = ProductListViewState.Loading)
-    when (viewState.value) {
-        is ProductListViewState.Loading -> {
-            LoadingScreen()
-        }
 
-        is ProductListViewState.Success -> {
-            val productList = (viewState.value as ProductListViewState.Success).data
-            ProductGrid(productList, viewModel, navController)
-        }
-
-        is ProductListViewState.Error -> {
-            (viewState.value as ProductListViewState.Error).throwable.message?.let {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    RetryWidget(it) {
-                        Log.d(Constants.APP_TAG, Constants.GET_PRODUCTS_API_ERROR+"$it.error")
-                        viewModel.sendIntent(ProductListViewIntent.FetchProductListList)
-                    }
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
                 is ProductListSideEffect.NavigateToProductDetails -> {
@@ -105,8 +79,39 @@ private fun ProductList(
             }
         }
     }
+    val viewState by viewModel.state.collectAsState()
+    ProductListState(viewState, viewModel, navController)
 }
 
+@Composable
+private fun ProductListState(
+    viewState: ProductListViewState,
+    viewModel: ProductListViewModel,
+    navController: NavController
+) {
+    when (viewState) {
+        is ProductListViewState.Loading -> {
+            LoadingScreen()
+        }
+        is ProductListViewState.Success -> {
+            val productList = viewState.data
+            ProductGrid(productList, viewModel, navController)
+        }
+        is ProductListViewState.Error -> {
+            viewState.throwable.message?.let {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    RetryWidget(it) {
+                        Log.d(Constants.APP_TAG, Constants.GET_PRODUCTS_API_ERROR + "$it.error")
+                        viewModel.sendIntent(ProductListViewIntent.FetchProductListList)
+                    }
+                }
+            }
+        }
+    }
+}
 @Composable
 private fun ProductGrid(
     products: List<Product>,

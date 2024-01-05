@@ -8,6 +8,6 @@ import com.example.presentation.model.Product
  */
 sealed interface ProductDetailViewState : ViewState {
     object Loading : ProductDetailViewState
-    class Success(val data: Product) : ProductDetailViewState
-    class Error(val throwable: Throwable) : ProductDetailViewState
+    data class Success(val data: Product) : ProductDetailViewState
+    data class Error(val throwable: Throwable) : ProductDetailViewState
 }

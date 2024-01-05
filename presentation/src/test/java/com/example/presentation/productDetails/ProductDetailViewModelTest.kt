@@ -38,14 +38,13 @@ class ProductDetailViewModelTest {
     @Test
     fun `Given product Item is available, when send Intent with FetchProductDetail is called, then emit a Success state with a product item`() {
         runTest {
-            val productId = 1
             coEvery { mockProductItemMapper.map(any()) }.returns(expectedMapProducts)
 
             val resultFlow = flowOf(Result.Success(expectedResultProductItem))
-            coEvery { mockGetProductItemUseCase.invoke(productId) } returns resultFlow
+            coEvery { mockGetProductItemUseCase.invoke(FakeDataProvider.productId_1) } returns resultFlow
 
             // When
-            viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
+            viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(FakeDataProvider.productId_1))
 
             viewModel.state.test {
                 val initialEmitState = awaitItem()

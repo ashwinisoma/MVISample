@@ -17,7 +17,6 @@ class ProductDetailViewModel @Inject constructor(
     private val getProductItemUseCase: GetProductItemUseCase,
     private val productItemMapper: ProductItemMapper,
 ) : BaseViewModel<ProductDetailViewState, ProductDetailViewIntent, ProductDetailSideEffect>(
-    ProductDetailViewState.Loading,
 ) {
 
     private fun fetchProductDetails(productId: Int) {
@@ -44,4 +43,6 @@ class ProductDetailViewModel @Inject constructor(
             }
         }
     }
+
+    override fun initialValue() = ProductDetailViewState.Loading
 }
