@@ -21,7 +21,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.navigation.Screen
 import com.example.presentation.ui.theme.PADDING_8DP
 import com.example.presentation.ui.theme.SIZE_16DP
 import com.example.presentation.ui.theme.SIZE_8DP
@@ -33,7 +32,6 @@ fun MyTopBar(
     backgroundColor: Color = Color.DarkGray,
     title: @Composable () -> Unit,
     hasNavigation: Boolean = false,
-    onBackClick: () -> Unit = {},
     navController: NavController,
 ) {
     val activity = LocalContext.current as Activity
@@ -51,12 +49,7 @@ fun MyTopBar(
             if (hasNavigation) {
                 IconButton(
                     onClick = {
-                        if (navController.popBackStack()) {
-                            // Navigation back button logic
-                        } else {
-                            onBackClick() // If navigation fails, use custom action
-                            navController.navigate(Screen.ProductListScreen.route)
-                        }
+                        navController.popBackStack()
                     },
                     modifier = Modifier.weight(WEIGHT_1),
                 ) {
