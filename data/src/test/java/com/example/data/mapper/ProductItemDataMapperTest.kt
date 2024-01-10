@@ -20,7 +20,7 @@ class ProductItemDataMapperTest {
 
         val actualResult = productItemDataMapper.map(product)
 
-        assertEquals(actualResult, expectedResult)
+        assertEquals(expectedResult, actualResult)
 
     }
 }

@@ -19,10 +19,8 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class ProductDetailViewModelTest {
 
-    private val mockGetProductItemUseCase = mockk<GetProductItemUseCase>()
-    private val mockProductItemMapper = mockk<ProductItemMapper>()
-    private val expectedResultProductItem = FakeDataProvider.fakeProductItem1
-
+    private lateinit var mockGetProductItemUseCase: GetProductItemUseCase
+    private lateinit var mockProductItemMapper: ProductItemMapper
     private lateinit var viewModel: ProductDetailViewModel
 
     @get:Rule
@@ -32,14 +30,18 @@ class ProductDetailViewModelTest {
 
     @Before
     fun setUp() {
+        mockGetProductItemUseCase = mockk()
+        mockProductItemMapper = mockk()
         viewModel = ProductDetailViewModel(mockGetProductItemUseCase, mockProductItemMapper)
     }
 
     @Test
     fun `Given product Item is available, when send Intent with FetchProductDetail is called, then emit a Success state with a product item`() {
         runTest {
-            coEvery { mockProductItemMapper.map(FakeDataProvider.fakeProductItem1) }.returns(expectedMapProducts)
-
+            coEvery { mockProductItemMapper.map(FakeDataProvider.fakeProductItem1) }.returns(
+                expectedMapProducts
+            )
+            val expectedResultProductItem = FakeDataProvider.fakeProductItem1
             val resultFlow = flowOf(Result.Success(expectedResultProductItem))
             coEvery { mockGetProductItemUseCase.invoke(FakeDataProvider.productId_1) } returns resultFlow
 
@@ -61,8 +63,8 @@ class ProductDetailViewModelTest {
     @Test
     fun `Given an productId, productItem is not available , when FetchProductDetail is called, then emit an Error state`() {
         runTest {
-            val throwable = Throwable(FakeDataProvider.error_msg)
-            val resultFlow = flowOf(Result.Error<Nothing>(throwable, null))
+            val expected = Throwable(FakeDataProvider.error_msg)
+            val resultFlow = flowOf(Result.Error<Nothing>(expected, null))
             coEvery { mockGetProductItemUseCase.invoke(FakeDataProvider.productId_2) } returns resultFlow
 
             viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(FakeDataProvider.productId_2))
@@ -72,7 +74,7 @@ class ProductDetailViewModelTest {
                 val emittedState = awaitItem()
                 assert(emittedState is ProductDetailViewState.Error)
                 val emittedError = (emittedState as ProductDetailViewState.Error).throwable
-                TestCase.assertEquals(throwable, emittedError)
+                TestCase.assertEquals(expected, emittedError)
                 cancelAndConsumeRemainingEvents()
             }
         }

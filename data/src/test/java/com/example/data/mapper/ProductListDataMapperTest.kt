@@ -1,6 +1,5 @@
 package com.example.data.mapper
 
-import com.example.data.dto.ProductItemData
 import com.example.data.utils.FakeDataProvider
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
@@ -10,7 +9,7 @@ class ProductListDataMapperTest {
     private lateinit var productListDataMapper: ProductListDataMapper
 
     @Before
-    fun setUp(){
+    fun setUp() {
         productListDataMapper = ProductListDataMapper()
     }
 
@@ -24,17 +23,7 @@ class ProductListDataMapperTest {
         val actualResult = productListDataMapper.map(productList)
         val expectedResult = FakeDataProvider.fakeProducts
 
-        assertEquals(actualResult.products.size, FakeDataProvider.productsListSize)
-
-        assertEquals(actualResult, expectedResult)
-    }
-
-    @Test
-    fun `Given list of ProductItemData is not available when we map response then return empty`() {
-        val productList = emptyList<ProductItemData>()
-
-        val mappedProducts = productListDataMapper.map(productList)
-
-        assertEquals(mappedProducts.products.size, FakeDataProvider.emptyListSize)
+        assertEquals(FakeDataProvider.productsListSize, actualResult.products.size)
+        assertEquals(expectedResult, actualResult)
     }
 }

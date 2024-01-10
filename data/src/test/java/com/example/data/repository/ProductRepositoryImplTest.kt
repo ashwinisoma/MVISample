@@ -15,13 +15,16 @@ import org.junit.Before
 import org.junit.Test
 
 class ProductRepositoryImplTest {
-    private val mockProductApiService = mockk<ProductApiService>()
-    private val mockProductListDataMapper = mockk<ProductListDataMapper>()
-    private val mockProductItemDataMapper = mockk<ProductItemDataMapper>()
+    private lateinit var mockProductApiService: ProductApiService
+    private lateinit var mockProductListDataMapper: ProductListDataMapper
+    private lateinit var mockProductItemDataMapper: ProductItemDataMapper
     private lateinit var productRepository: ProductRepositoryImpl
 
     @Before
     fun setUp() {
+        mockProductApiService = mockk()
+        mockProductListDataMapper = mockk()
+        mockProductItemDataMapper = mockk()
         productRepository = ProductRepositoryImpl(
             mockProductApiService,
             mockProductListDataMapper,
@@ -33,15 +36,16 @@ class ProductRepositoryImplTest {
     fun `Given product list is available when getProducts is called, then Return Success with List of Products`() {
         runTest {
             coEvery { mockProductApiService.getProducts() } returns FakeDataProvider.fakeListOfProductItemData
-            coEvery { mockProductListDataMapper.map(FakeDataProvider.fakeListOfProductItemData) } returns Products(products = FakeDataProvider.fakeListOfProducts)
+            coEvery { mockProductListDataMapper.map(FakeDataProvider.fakeListOfProductItemData) } returns Products(
+                products = FakeDataProvider.fakeListOfProducts
+            )
 
             // When
             val result = productRepository.getProducts()
 
             // Verify success and mapped data
             assertEquals(
-                result,
-                Result.Success(Products(products = FakeDataProvider.fakeListOfProducts)),
+                Result.Success(Products(products = FakeDataProvider.fakeListOfProducts)),result
             )
         }
     }
@@ -49,7 +53,7 @@ class ProductRepositoryImplTest {
     @Test
     fun `Given product list is not available when getProducts is called, then Return Error`() {
         runTest {
-            coEvery { mockProductApiService.getProducts() } throws Exception(error_msg)
+            coEvery { mockProductApiService.getProducts() } throws Exception(FakeDataProvider.error_msg)
 
             // Execute function and collect result
             val result = productRepository.getProducts()
@@ -62,16 +66,15 @@ class ProductRepositoryImplTest {
     @Test
     fun `Given product Item is available when getProductDetail is called, then Return Success with  Product Item`() {
         runTest {
-            coEvery { mockProductApiService.getProductDetail(productId) } returns FakeDataProvider.fakeProductItemData1
+            coEvery { mockProductApiService.getProductDetail(FakeDataProvider.productId) } returns FakeDataProvider.fakeProductItemData1
             coEvery { mockProductItemDataMapper.map(FakeDataProvider.fakeProductItemData1) } returns FakeDataProvider.fakeProduct1
 
             // When
-            val result = productRepository.getProductDetails(productId)
+            val result = productRepository.getProductDetails(FakeDataProvider.productId)
 
             // Verify success and mapped data
             assertEquals(
-                result,
-                Result.Success(FakeDataProvider.fakeProduct1),
+                Result.Success(FakeDataProvider.fakeProduct1),result
             )
         }
     }
@@ -79,18 +82,13 @@ class ProductRepositoryImplTest {
     @Test
     fun `Given product item is not available when getProductDetail is called, then Return Error`() {
         runTest {
-            coEvery { mockProductApiService.getProductDetail(productId) } throws Exception(error_msg)
+            coEvery { mockProductApiService.getProductDetail(FakeDataProvider.productId) } throws Exception(FakeDataProvider.error_msg)
 
             // Execute function and collect result
-            val result = productRepository.getProductDetails(productId)
+            val result = productRepository.getProductDetails(FakeDataProvider.productId)
 
             // Verify error
             assertTrue(result is Result.Error)
         }
-    }
-
-    companion object {
-        const val productId = 1
-        const val error_msg = "Network error"
     }
 }

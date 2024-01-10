@@ -1,24 +1,32 @@
 package com.example.domain.usecase
 
 import app.cash.turbine.test
+import com.example.domain.CoroutinesTestRule
 import com.example.domain.common.Result
 import com.example.domain.repository.ProductRepository
 import com.example.domain.utils.FakeDataProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class GetProductItemUseCaseImplTest {
-    private val mockProductRepository = mockk<ProductRepository>()
+    private lateinit var mockProductRepository: ProductRepository
     private lateinit var productItemUseCase: GetProductItemUseCaseImpl
+
+    @get:Rule
+    var coroutinesTestRule = CoroutinesTestRule()
 
     @Before
     fun setUp() {
-        productItemUseCase = GetProductItemUseCaseImpl(mockProductRepository, Dispatchers.IO)
+        mockProductRepository = mockk()
+        productItemUseCase =
+            GetProductItemUseCaseImpl(mockProductRepository, coroutinesTestRule.dispatcher)
     }
 
     @Test
@@ -42,7 +50,9 @@ class GetProductItemUseCaseImplTest {
     fun `Given product item is available, when invoke is called, then product item is returned`() {
         runTest {
             val expected = FakeDataProvider.fakeProduct2
-            coEvery { mockProductRepository.getProductDetails(FakeDataProvider.productId_2) } returns Result.Success(expected)
+            coEvery { mockProductRepository.getProductDetails(FakeDataProvider.productId_2) } returns Result.Success(
+                expected
+            )
 
             // When
             val productList = productItemUseCase.invoke(FakeDataProvider.productId_2)

@@ -5,6 +5,7 @@ import com.example.domain.model.Products
 import com.example.presentation.model.Product
 
 object FakeDataProvider {
+    const val productsListSize = 2
     const val productId_1 = 1
     const val productId_2 = 2
     const val error_msg = "Failed to fetch products"

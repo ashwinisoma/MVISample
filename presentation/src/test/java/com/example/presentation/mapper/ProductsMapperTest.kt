@@ -32,7 +32,7 @@ class ProductsMapperTest {
         val actualResult = productsMapper.map(fakeProductsModel)
 
         // Then
-        assertEquals(2, actualResult.size)
+        assertEquals(FakeDataProvider.productsListSize, actualResult.size)
         assertEquals(expectedResult, actualResult)
     }
 }

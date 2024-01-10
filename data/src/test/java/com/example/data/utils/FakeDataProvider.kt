@@ -6,7 +6,6 @@ import com.example.domain.model.Products
 
 object FakeDataProvider {
     const val productsListSize = 2
-    const val emptyListSize = 0
     val fakeProduct1 = ProductItem(
         id = 1,
         title = "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
@@ -44,4 +43,7 @@ object FakeDataProvider {
 
     val fakeProducts = Products(listOf(fakeProduct1, fakeProduct2))
 
+    const val productId = 1
+
+    const val error_msg = "Network error"
 }

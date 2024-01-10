@@ -2,10 +2,8 @@ package com.example.presentation.products.viewModel
 
 import app.cash.turbine.test
 import com.example.domain.common.Result
-import com.example.domain.model.Products
 import com.example.domain.usecase.GetProductListUseCaseImpl
 import com.example.presentation.CoroutinesTestRule
-import com.example.presentation.mapper.ProductItemMapper
 import com.example.presentation.mapper.ProductsMapper
 import com.example.presentation.products.ProductListSideEffect
 import com.example.presentation.products.ProductListViewIntent
@@ -27,10 +25,6 @@ class ProductListViewModelTest {
 
     private lateinit var mockGetProductsUseCaseImpl: GetProductListUseCaseImpl
     private lateinit var mockProductsMapper: ProductsMapper
-    private lateinit var mockProductItemMapper: ProductItemMapper
-    private lateinit var mockProducts: Products
-    private val expectedResultProducts = FakeDataProvider.fakeProductResponseList
-
     private lateinit var viewModel: ProductListViewModel
 
     @get:Rule
@@ -42,16 +36,16 @@ class ProductListViewModelTest {
     fun setUp() {
         mockGetProductsUseCaseImpl = mockk()
         mockProductsMapper = mockk()
-        mockProductItemMapper = mockk()
-        mockProducts = mockk()
         viewModel = ProductListViewModel(mockGetProductsUseCaseImpl, mockProductsMapper)
     }
 
     @Test
     fun `Given product list is available, when send Intent with FetchProductListList is called, then emit a Success state with list of products`() {
         runTest {
-            coEvery { mockProductsMapper.map(FakeDataProvider.fakeProductResponseList) }.returns(expectedMapProducts)
-
+            coEvery { mockProductsMapper.map(FakeDataProvider.fakeProductResponseList) }.returns(
+                expectedMapProducts
+            )
+            val expectedResultProducts = FakeDataProvider.fakeProductResponseList
             val resultFlow = flowOf(Result.Success(expectedResultProducts))
             coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
@@ -73,8 +67,8 @@ class ProductListViewModelTest {
     @Test
     fun `Given an error from the product list fetch, when fetchProducts is called, then emit an Error state`() {
         runTest {
-            val throwable = Throwable(FakeDataProvider.error_msg)
-            val resultFlow = flowOf(Result.Error<Nothing>(throwable, null))
+            val expected = Throwable(FakeDataProvider.error_msg)
+            val resultFlow = flowOf(Result.Error<Nothing>(expected, null))
             coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
             // When
@@ -85,25 +79,29 @@ class ProductListViewModelTest {
                 val emittedState = awaitItem()
                 assert(emittedState is ProductListViewState.Error)
                 val emittedError = (emittedState as ProductListViewState.Error).throwable
-                assertEquals(throwable, emittedError)
+                assertEquals(expected, emittedError)
                 cancelAndConsumeRemainingEvents()
             }
         }
     }
 
     @Test
-    fun `Given list of products displayed when OnProductItemClick then emit NavigateToProductDetails side effect`() = runTest {
-        // Given
-        coEvery { mockProductsMapper.map(FakeDataProvider.fakeProductResponseList) }.returns(expectedMapProducts)
-        val resultFlow = flowOf(Result.Success(expectedResultProducts))
-        coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
+    fun `Given list of products displayed when OnProductItemClick then emit NavigateToProductDetails side effect`() =
+        runTest {
+            // Given
+            coEvery { mockProductsMapper.map(FakeDataProvider.fakeProductResponseList) }.returns(
+                expectedMapProducts
+            )
+            val expectedResultProducts = FakeDataProvider.fakeProductResponseList
+            val resultFlow = flowOf(Result.Success(expectedResultProducts))
+            coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
-        // When
-        viewModel.sendIntent(ProductListViewIntent.OnProductItemClick(FakeDataProvider.productId_1))
+            // When
+            viewModel.sendIntent(ProductListViewIntent.OnProductItemClick(FakeDataProvider.productId_1))
 
-        viewModel.sideEffect.test {
-            val emittedState = awaitItem()
-            assert(emittedState is ProductListSideEffect.NavigateToProductDetails)
+            viewModel.sideEffect.test {
+                val emittedState = awaitItem()
+                assert(emittedState is ProductListSideEffect.NavigateToProductDetails)
+            }
         }
-    }
 }
