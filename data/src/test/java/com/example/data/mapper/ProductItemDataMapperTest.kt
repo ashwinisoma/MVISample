@@ -1,21 +1,26 @@
 package com.example.data.mapper
 
 import com.example.data.utils.FakeDataProvider
-import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class ProductItemDataMapperTest {
+    private lateinit var productItemDataMapper: ProductItemDataMapper
+
+    @Before
+    fun setUp() {
+        productItemDataMapper = ProductItemDataMapper()
+    }
 
     @Test
     fun `Given list of ProductItemData is available when we map response then return ProductItem`() {
-        val product1 = FakeDataProvider.fakeProductItemData1
+        val expectedResult = FakeDataProvider.fakeProduct1
+        val product = FakeDataProvider.fakeProductItemData1
 
-        val mappedProductItem = ProductItemDataMapper().map(product1)
+        val actualResult = productItemDataMapper.map(product)
 
-        TestCase.assertEquals(mappedProductItem.description, product1.description)
-        TestCase.assertEquals(mappedProductItem.id, product1.id)
-        TestCase.assertEquals(mappedProductItem.image, product1.image)
-        TestCase.assertEquals(mappedProductItem.price, product1.price)
-        TestCase.assertEquals(mappedProductItem.title, product1.title)
+        assertEquals(actualResult, expectedResult)
+
     }
 }

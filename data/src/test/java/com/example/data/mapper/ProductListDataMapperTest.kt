@@ -3,35 +3,37 @@ package com.example.data.mapper
 import com.example.data.dto.ProductItemData
 import com.example.data.utils.FakeDataProvider
 import junit.framework.TestCase.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class ProductListDataMapperTest {
+    private lateinit var productListDataMapper: ProductListDataMapper
+
+    @Before
+    fun setUp(){
+        productListDataMapper = ProductListDataMapper()
+    }
+
+
     @Test
     fun `Given list of ProductItemData is available when we map response then return list of ProductItem`() {
         val product1 = FakeDataProvider.fakeProductItemData1
         val product2 = FakeDataProvider.fakeProductItemData2
         val productList = listOf(product1, product2)
 
-        val mappedProducts = ProductListDataMapper().map(productList)
+        val actualResult = productListDataMapper.map(productList)
+        val expectedResult = FakeDataProvider.fakeProducts
 
-        assertEquals(mappedProducts.products.size, FakeDataProvider.productsListSize)
-        assertEquals(mappedProducts.products[0].description, product1.description)
-        assertEquals(mappedProducts.products[0].id, product1.id)
-        assertEquals(mappedProducts.products[0].image, product1.image)
-        assertEquals(mappedProducts.products[0].price, product1.price)
-        assertEquals(mappedProducts.products[0].title, product1.title)
-        assertEquals(mappedProducts.products[1].description, product2.description)
-        assertEquals(mappedProducts.products[1].id, product2.id)
-        assertEquals(mappedProducts.products[1].image, product2.image)
-        assertEquals(mappedProducts.products[1].price, product2.price)
-        assertEquals(mappedProducts.products[1].title, product2.title)
+        assertEquals(actualResult.products.size, FakeDataProvider.productsListSize)
+
+        assertEquals(actualResult, expectedResult)
     }
 
     @Test
     fun `Given list of ProductItemData is not available when we map response then return empty`() {
         val productList = emptyList<ProductItemData>()
 
-        val mappedProducts = ProductListDataMapper().map(productList)
+        val mappedProducts = productListDataMapper.map(productList)
 
         assertEquals(mappedProducts.products.size, FakeDataProvider.emptyListSize)
     }

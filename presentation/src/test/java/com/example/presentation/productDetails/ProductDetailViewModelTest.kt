@@ -21,14 +21,14 @@ class ProductDetailViewModelTest {
 
     private val mockGetProductItemUseCase = mockk<GetProductItemUseCase>()
     private val mockProductItemMapper = mockk<ProductItemMapper>()
-    private val expectedResultProductItem = FakeDataProvider.fakeProduct1
+    private val expectedResultProductItem = FakeDataProvider.fakeProductItem1
 
     private lateinit var viewModel: ProductDetailViewModel
 
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
 
-    private val expectedMapProducts = FakeDataProvider.fakeMapProductItem
+    private val expectedMapProducts = FakeDataProvider.fakeProduct
 
     @Before
     fun setUp() {
@@ -38,7 +38,7 @@ class ProductDetailViewModelTest {
     @Test
     fun `Given product Item is available, when send Intent with FetchProductDetail is called, then emit a Success state with a product item`() {
         runTest {
-            coEvery { mockProductItemMapper.map(any()) }.returns(expectedMapProducts)
+            coEvery { mockProductItemMapper.map(FakeDataProvider.fakeProductItem1) }.returns(expectedMapProducts)
 
             val resultFlow = flowOf(Result.Success(expectedResultProductItem))
             coEvery { mockGetProductItemUseCase.invoke(FakeDataProvider.productId_1) } returns resultFlow

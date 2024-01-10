@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.domain.common.Constants
 import com.example.presentation.R
@@ -99,9 +98,7 @@ private fun ProductDetailUI(
             modifier = Modifier.fillMaxSize(),
             color = Color.White,
         ) {
-            val limitedTitle = product.title?.take(TITLE_LENGTH)?.let { "$it..." }
-                ?: stringResource(R.string.product_title)
-
+            val limitedTitle = product.title.take(TITLE_LENGTH).let { "$it..." }
             Column {
                 MyTopBar(
                     backgroundColor = Color(R.color.topBar),
@@ -129,8 +126,7 @@ private fun ProductDetailUI(
                         contentDescription = product.title,
                     )
                     TextWidget(
-                        message = product.description
-                            ?: stringResource(R.string.product_description),
+                        message = product.description,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = SIZE_16DP),
                         maxLines = Int.MAX_VALUE,

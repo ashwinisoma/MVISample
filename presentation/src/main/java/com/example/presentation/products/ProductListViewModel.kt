@@ -14,7 +14,7 @@ import javax.inject.Inject
  * and emitting side effects related to the products list screen.
  */
 @HiltViewModel
-open class ProductListViewModel @Inject constructor(
+class ProductListViewModel @Inject constructor(
     private val getProductListUseCaseImpl: GetProductListUseCaseImpl,
     private val productsMapper: ProductsMapper,
 ) : BaseViewModel<ProductListViewState, ProductListViewIntent, ProductListSideEffect>(
@@ -34,6 +34,7 @@ open class ProductListViewModel @Inject constructor(
                             ),
                         ),
                     )
+
                     is Result.Error -> emitStateUpdate(ProductListViewState.Error(it.error))
                 }
             }

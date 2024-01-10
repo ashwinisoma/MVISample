@@ -1,6 +1,5 @@
 package com.example.presentation.mapper
 
-import com.example.presentation.model.Product
 import com.example.presentation.utils.FakeDataProvider
 import io.mockk.every
 import io.mockk.mockk
@@ -9,24 +8,31 @@ import org.junit.Before
 import org.junit.Test
 
 class ProductsMapperTest {
+    private lateinit var productsMapper: ProductsMapper
     private lateinit var mockProductItemMapper: ProductItemMapper
 
     @Before
     fun setUp(){
         mockProductItemMapper = mockk()
+        productsMapper = ProductsMapper(mockProductItemMapper)
     }
 
     @Test
     fun `Given Products are available when we map response then return List of Product`() {
-        val model = FakeDataProvider.fakeProductResponseList
-        every { mockProductItemMapper.map(any()) } returns Product(
-            id = FakeDataProvider.fakeProduct1.id,
-            description = FakeDataProvider.fakeProduct1.description,
-            price = FakeDataProvider.fakeProduct1.price,
-            image = FakeDataProvider.fakeProduct1.image,
-            title = FakeDataProvider.fakeProduct1.title
-        )
-        val mappedProducts = ProductsMapper(mockProductItemMapper).map(model)
-        assertEquals(FakeDataProvider.products_size, mappedProducts.size)
+
+        val fakeProductItem1 = FakeDataProvider.fakeProductItem1
+        val fakeProductItem2 = FakeDataProvider.fakeProductItem2
+        val fakeProductsModel = FakeDataProvider.fakeProductResponseList
+        val expectedResult = FakeDataProvider.fakeMapProducts
+
+        every { mockProductItemMapper.map(fakeProductItem1) } returns FakeDataProvider.fakeProduct
+        every { mockProductItemMapper.map(fakeProductItem2) } returns FakeDataProvider.fakeProduct2
+
+        // When
+        val actualResult = productsMapper.map(fakeProductsModel)
+
+        // Then
+        assertEquals(2, actualResult.size)
+        assertEquals(expectedResult, actualResult)
     }
 }

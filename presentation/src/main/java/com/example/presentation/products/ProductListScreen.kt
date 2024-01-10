@@ -180,7 +180,7 @@ private fun ProductItem(
             )
             Spacer(modifier = Modifier.height(SIZE_8DP))
             TextWidget(
-                message = product.title ?: stringResource(R.string.product_title),
+                message = product.title,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = productItemMaxLines,
                 overflow = TextOverflow.Ellipsis,

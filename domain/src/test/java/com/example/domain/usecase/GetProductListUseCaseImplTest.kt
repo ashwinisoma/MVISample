@@ -28,7 +28,7 @@ class GetProductListUseCaseImplTest {
             coEvery { mockProductRepository.getProducts() } returns expected
 
             // When
-            val resultFlow = productListUseCase()
+            val resultFlow = productListUseCase.invoke()
 
             // Then
             resultFlow.test {
