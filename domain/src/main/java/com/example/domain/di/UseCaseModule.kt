@@ -8,21 +8,19 @@ import com.example.domain.usecase.GetProductListUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Singleton
 
 /**
  * This module provides use cases for retrieving and managing product data in the application.
  */
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object UseCaseModule {
     @Provides
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @Singleton
     @Provides
     fun providesProductsUseCase(
         productRepository: ProductRepository,
@@ -31,7 +29,6 @@ object UseCaseModule {
         return GetProductListUseCaseImpl(productRepository, dispatcher)
     }
 
-    @Singleton
     @Provides
     fun providesProductItemUseCase(
         productRepository: ProductRepository,

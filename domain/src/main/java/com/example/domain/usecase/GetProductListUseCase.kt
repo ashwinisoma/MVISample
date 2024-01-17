@@ -1,7 +1,7 @@
 package com.example.domain.usecase
 
 import com.example.domain.common.Result
-import com.example.domain.model.Products
+import com.example.domain.model.ProductItem
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -12,5 +12,5 @@ import kotlinx.coroutines.flow.Flow
  *  * `Error` indicates an error occurred while retrieving the product list.
  */
 interface GetProductListUseCase {
-    suspend operator fun invoke(): Flow<Result<Products>>
+    suspend operator fun invoke(): Flow<Result<List<ProductItem>>>
 }

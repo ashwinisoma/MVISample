@@ -21,7 +21,7 @@ class ProductDetailViewModel @Inject constructor(
 
     private fun fetchProductDetails(productId: Int) {
         viewModelScope.launch {
-            getProductItemUseCase.invoke(productId).collect {
+            getProductItemUseCase(productId).collect {
                 when (it) {
                     is Result.Success -> emitStateUpdate(
                         ProductDetailViewState.Success(

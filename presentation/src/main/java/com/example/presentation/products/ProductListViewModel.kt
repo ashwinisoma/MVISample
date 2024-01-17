@@ -25,7 +25,7 @@ class ProductListViewModel @Inject constructor(
      */
     private fun fetchProducts() {
         viewModelScope.launch {
-            getProductListUseCaseImpl.invoke().collect {
+            getProductListUseCaseImpl().collect {
                 when (it) {
                     is Result.Success -> emitStateUpdate(
                         ProductListViewState.Success(
@@ -34,7 +34,6 @@ class ProductListViewModel @Inject constructor(
                             ),
                         ),
                     )
-
                     is Result.Error -> emitStateUpdate(ProductListViewState.Error(it.error))
                 }
             }

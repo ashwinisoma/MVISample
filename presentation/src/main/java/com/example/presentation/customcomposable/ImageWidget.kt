@@ -9,7 +9,7 @@ import coil.request.ImageRequest
 
 @Composable
 fun ImageWidget(
-    imageURL: Any?,
+    imageURL: String,
     contentDescription: String? = null,
     modifier: Modifier,
 ) {

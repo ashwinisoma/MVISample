@@ -1,7 +1,7 @@
 package com.example.domain.usecase
 
 import com.example.domain.common.Result
-import com.example.domain.model.Products
+import com.example.domain.model.ProductItem
 import com.example.domain.repository.ProductRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ class GetProductListUseCaseImpl @Inject constructor(
     private val productRepository: ProductRepository,
     private val dispatcher: CoroutineDispatcher,
 ) : GetProductListUseCase {
-    override suspend fun invoke(): Flow<Result<Products>> {
+    override suspend fun invoke(): Flow<Result<List<ProductItem>>> {
         return flow {
             val result = productRepository.getProducts()
             emit(result)

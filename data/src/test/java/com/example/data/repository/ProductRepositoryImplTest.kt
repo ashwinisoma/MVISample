@@ -5,7 +5,6 @@ import com.example.data.mapper.ProductListDataMapper
 import com.example.data.network.ProductApiService
 import com.example.data.utils.FakeDataProvider
 import com.example.domain.common.Result
-import com.example.domain.model.Products
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -36,16 +35,15 @@ class ProductRepositoryImplTest {
     fun `Given product list is available when getProducts is called, then Return Success with List of Products`() {
         runTest {
             coEvery { mockProductApiService.getProducts() } returns FakeDataProvider.fakeListOfProductItemData
-            coEvery { mockProductListDataMapper.map(FakeDataProvider.fakeListOfProductItemData) } returns Products(
-                products = FakeDataProvider.fakeListOfProducts
-            )
+            coEvery { mockProductListDataMapper.map(FakeDataProvider.fakeListOfProductItemData) } returns FakeDataProvider.fakeListOfProducts
+
 
             // When
             val result = productRepository.getProducts()
 
             // Verify success and mapped data
             assertEquals(
-                Result.Success(Products(products = FakeDataProvider.fakeListOfProducts)),result
+                Result.Success(FakeDataProvider.fakeListOfProducts),result
             )
         }
     }

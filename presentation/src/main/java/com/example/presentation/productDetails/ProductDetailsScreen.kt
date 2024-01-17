@@ -42,7 +42,7 @@ fun ProductDetailScreen(
     viewModel: ProductDetailViewModel,
     navController: NavController,
 ) {
-    LaunchedEffect(UInt) {
+    LaunchedEffect(Unit) {
         viewModel.sendIntent(ProductDetailViewIntent.FetchProductDetail(productId))
     }
     val viewState by viewModel.state.collectAsState()

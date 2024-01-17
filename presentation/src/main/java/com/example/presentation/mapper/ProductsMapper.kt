@@ -1,6 +1,6 @@
 package com.example.presentation.mapper
 
-import com.example.domain.model.Products
+import com.example.domain.model.ProductItem
 import com.example.presentation.model.Product
 import javax.inject.Inject
 
@@ -10,9 +10,9 @@ import javax.inject.Inject
  * @param productItemMapper The mapper used to convert individual `ProductItemData` objects to `Product` objects.
  */
 class ProductsMapper @Inject constructor(private val productItemMapper: ProductItemMapper) {
-    fun map(model: Products): List<Product> {
+    fun map(model: List<ProductItem>): List<Product> {
         return with(model) {
-            products.map {
+            this.map {
                 productItemMapper.map(it)
             }
         }

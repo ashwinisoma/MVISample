@@ -1,7 +1,6 @@
 package com.example.domain.utils
 
 import com.example.domain.model.ProductItem
-import com.example.domain.model.Products
 
 object FakeDataProvider {
 
@@ -26,10 +25,9 @@ object FakeDataProvider {
         price = 129.95,
     )
 
-    val fakeProductResponseList = Products(
+    val fakeProductResponseList =
         listOf(
             fakeProduct1,
             fakeProduct2,
-        ),
-    )
+        )
 }

@@ -33,7 +33,7 @@ class GetProductListUseCaseImplTest {
             coEvery { mockProductRepository.getProducts() } returns Result.Success(expected)
 
             // When
-            val productList = productListUseCase.invoke()
+            val productList = productListUseCase()
 
             // Then
             productList.test {
@@ -47,11 +47,11 @@ class GetProductListUseCaseImplTest {
     @Test
     fun `Given product list is not available, when invoke is called, then return an error Result`() {
         runTest {
-            val expectedError = Result.Error<Nothing>(Throwable(FakeDataProvider.error_msg), null)
+            val expectedError = Result.Error<Nothing>(Throwable(FakeDataProvider.error_msg))
             coEvery { mockProductRepository.getProducts() } returns expectedError
 
             // When
-            val productList = productListUseCase.invoke()
+            val productList = productListUseCase()
 
             productList.test {
                 val result = awaitItem()

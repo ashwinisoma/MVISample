@@ -5,9 +5,7 @@ import com.example.data.mapper.ProductListDataMapper
 import com.example.data.network.ProductApiService
 import com.example.domain.common.Result
 import com.example.domain.model.ProductItem
-import com.example.domain.model.Products
 import com.example.domain.repository.ProductRepository
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -19,7 +17,7 @@ class ProductRepositoryImpl @Inject constructor(
     private val productListDataMapper: ProductListDataMapper,
     private val productItemDataMapper: ProductItemDataMapper,
 ) : ProductRepository {
-    override suspend fun getProducts(): Result<Products> {
+    override suspend fun getProducts(): Result<List<ProductItem>> {
         return try {
             val products = productApiService.getProducts()
             Result.Success(productListDataMapper.map(products))

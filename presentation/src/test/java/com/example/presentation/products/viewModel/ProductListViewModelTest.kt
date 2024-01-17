@@ -68,7 +68,7 @@ class ProductListViewModelTest {
     fun `Given an error from the product list fetch, when fetchProducts is called, then emit an Error state`() {
         runTest {
             val expected = Throwable(FakeDataProvider.error_msg)
-            val resultFlow = flowOf(Result.Error<Nothing>(expected, null))
+            val resultFlow = flowOf(Result.Error<Nothing>(expected))
             coEvery { mockGetProductsUseCaseImpl.invoke() } returns resultFlow
 
             // When

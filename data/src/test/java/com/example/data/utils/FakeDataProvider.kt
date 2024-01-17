@@ -2,7 +2,6 @@ package com.example.data.utils
 
 import com.example.data.dto.ProductItemData
 import com.example.domain.model.ProductItem
-import com.example.domain.model.Products
 
 object FakeDataProvider {
     const val productsListSize = 2
@@ -41,7 +40,7 @@ object FakeDataProvider {
 
     val fakeListOfProducts = listOf(fakeProduct1, fakeProduct2)
 
-    val fakeProducts = Products(listOf(fakeProduct1, fakeProduct2))
+    val fakeProducts = listOf(fakeProduct1, fakeProduct2)
 
     const val productId = 1
 

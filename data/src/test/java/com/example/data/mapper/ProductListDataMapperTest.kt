@@ -23,7 +23,7 @@ class ProductListDataMapperTest {
         val actualResult = productListDataMapper.map(productList)
         val expectedResult = FakeDataProvider.fakeProducts
 
-        assertEquals(FakeDataProvider.productsListSize, actualResult.products.size)
+        assertEquals(FakeDataProvider.productsListSize, actualResult.size)
         assertEquals(expectedResult, actualResult)
     }
 }
